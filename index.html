@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>DragonX - Streamer Profissional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        body {
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #8A2BE2;
+            --secondary: #4169E1;
+            --dark: #0a0a1a;
+            --light: #f8f9fa;
+            --accent: #FF00FF;
+            --neon: #00ffff;
+        }
+
+        body {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(65, 105, 225, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 0, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a1a 0%, #000000 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.03) 0px,
+                    rgba(0, 0, 0, 0.03) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Efeitos de fundo - Ícones de controle */
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .game-icon {
+            position: absolute;
+            font-size: 5rem;
+            color: rgba(138, 43, 226, 0.05);
+            filter: blur(2px);
+            animation: floatIcon 20s linear infinite;
+        }
+
+        .game-icon:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .game-icon:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        .game-icon:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 10s;
+        }
+
+        .game-icon:nth-child(4) {
+            top: 30%;
+            right: 20%;
+            animation-delay: 15s;
+        }
+
+        .floating-circle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: floatCircle 15s ease-in-out infinite;
+            filter: blur(12px);
+        }
+
+        .floating-circle:nth-child(5) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-circle:nth-child(6) {
+            top: 70%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        .floating-circle:nth-child(7) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 14s;
+        }
+
+        @keyframes floatIcon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 0.05;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatCircle {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+            25% {
+                transform: translate(100px, -50px) scale(1.2);
+                opacity: 0.15;
+            }
+            50% {
+                transform: translate(50px, -100px) scale(0.8);
+                opacity: 0.05;
+            }
+            75% {
+                transform: translate(-50px, -50px) scale(1.1);
+                opacity: 0.12;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            position: relative;
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 
+                0 0 30px var(--accent),
+                0 0 60px rgba(138, 43, 226, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+            transition: all 0.5s ease;
+            filter: saturate(1.2) contrast(1.1);
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 40px var(--accent),
+                0 0 80px rgba(138, 43, 226, 0.7),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .name {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 25px 0 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--neon));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 
+                0 0 20px rgba(138, 43, 226, 0.8),
+                0 0 40px rgba(138, 43, 226, 0.4);
+            letter-spacing: 2px;
+            position: relative;
+            animation: textShine 3s ease-in-out infinite alternate;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: var(--light);
+            position: relative;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .platform-card {
+            background: 
+                linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.05) 0%, 
+                    rgba(255, 255, 255, 0.02) 50%,
+                    rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transition: left 0.8s ease;
+        }
+
+        .platform-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(138, 43, 226, 0.1) 0%, 
+                rgba(65, 105, 225, 0.1) 50%,
+                rgba(255, 0, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 15px;
+        }
+
+        .platform-card:hover {
+            transform: 
+                translateY(-8px)
+                scale(1.02);
+            box-shadow: 
+                0 15px 30px rgba(138, 43, 226, 0.4),
+                0 0 50px rgba(138, 43, 226, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .platform-card:hover::before {
+            left: 100%;
+        }
+
+        .platform-card:hover::after {
+            opacity: 1;
+        }
+
+        .platform-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 6px rgba(138, 43, 226, 0.5));
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .platform-card:hover .platform-icon {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 12px rgba(138, 43, 226, 0.8));
+        }
+
+        .platform-name {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--light);
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .platform-desc {
+            color: #bbb;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .platform-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 
+                0 3px 12px rgba(138, 43, 226, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .platform-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .platform-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 5px 20px rgba(138, 43, 226, 0.7),
+                0 0 30px rgba(138, 43, 226, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            letter-spacing: 1px;
+        }
+
+        .platform-btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes textShine {
+            0% {
+                text-shadow: 
+                    0 0 20px rgba(138, 43, 226, 0.8),
+                    0 0 40px rgba(138, 43, 226, 0.4);
+            }
+            100% {
+                text-shadow: 
+                    0 0 30px rgba(138, 43, 226, 1),
+                    0 0 60px rgba(138, 43, 226, 0.6),
+                    0 0 80px rgba(65, 105, 225, 0.4);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ccc;
+            font-size: 0.9rem;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+        }
+
+        .god-bless {
+            margin-top: 12px;
+            font-style: italic;
+            color: var(--neon);
+            font-size: 0.8rem;
+            text-shadow: 0 0 6px var(--neon);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .name {
+                font-size: 2.2rem;
+            }
+            
+            .platforms-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .profile-pic {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .platform-card {
+                padding: 20px 15px;
+            }
+            
+            header {
+                padding: 30px 15px 20px;
+            }
+            
+            .game-icon {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeitos de fundo originais -->
+    <div class="background-elements">
+        <i class="fas fa-gamepad game-icon"></i>
+        <i class="fas fa-joystick game-icon"></i>
+        <i class="fas fa-headset game-icon"></i>
+        <i class="fas fa-trophy game-icon"></i>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="profile-container">
+                <img src="./IMG_20251119_172137.png" alt="DragonX" class="profile-pic">
+            </div>
+            <h1 class="name">DRAGONX</h1>
+            <p class="title">Venha fazer parte da minha comunidade e acompanhar conteúdos incríveis de games e entretenimento!</p>
+        </header>
+        
+        <section id="platforms">
+            <h2 class="section-title">REDES SOCIAIS</h2>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <i class="fab fa-tiktok platform-icon"></i>
+                    <h3 class="platform-name">TikTok</h3>
+                    <p class="platform-desc">Clipes épicos e momentos especiais das minhas lives e gameplays!</p>
+                    <a href="https://www.tiktok.com/@dragonx656564?_r=1&_t=ZS-91XPFQG7Jvb" target="_blank" class="platform-btn">Seguir</a>
+                </div>
+                
+                <div class="platform-card">
+                    <i class="fab fa-twitch platform-icon"></i>
+                    <h3 class="platform-name">Twitch</h3>
+                    <p class="platform-desc">Perfil secundário para lives especiais (em manutenção temporária)</p>
+                    <a href="https://www.twitch.tv/lordruan2003" target="_blank" class="platform-btn">Visitar</a>
+                </div>
+                
+                <div class="platform-card">
+                    <i class="fab fa-youtube platform-icon"></i>
+                    <h3 class="platform-name">YouTube</h3>
+                    <p class="platform-desc">Gameplays completas de FNF e outros jogos favoritos da comunidade!</p>
+                    <a href="https://youtube.com/@titiodragonx" target="_blank" class="platform-btn">Inscrever</a>
+                </div>
+                
+                <div class="platform-card">
+                    <i class="fab fa-discord platform-icon"></i>
+                    <h3 class="platform-name">Discord</h3>
+                    <p class="platform-desc">Junte-se à nossa comunidade para conversar e participar de eventos!</p>
+                    <a href="https://discord.gg/VW7ETaWAQ" target="_blank" class="platform-btn">Entrar</a>
+                </div>
+                
+                <div class="platform-card">
+                    <i class="fas fa-donate platform-icon"></i>
+                    <h3 class="platform-name">LivePix</h3>
+                    <p class="platform-desc">Apoie meu trabalho e ajude a melhorar o conteúdo. Muito obrigado!</p>
+                    <a href="https://livepix.gg/ruanvitors118" target="_blank" class="platform-btn">Apoiar</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 DragonX. Todos os direitos reservados.</p>
+        <p class="god-bless">Que Deus abençoe cada um de vocês!</p>
+    </footer>
+
+    <script>
+        // BLOQUEIO TOTAL DE ZOOM
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchend', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('gesturechange', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('gestureend', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevenir zoom com Ctrl + Scroll
+        document.addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Efeitos de hover suaves
+        function setupHoverEffects() {
+            const cards = document.querySelectorAll('.platform-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            setupHoverEffects();
+            
+            // Verificar se a imagem carregou
+            const profileImg = document.querySelector('.profile-pic');
+            profileImg.onerror = function() {
+                console.log('❌ ERRO: Imagem não encontrada!');
+                console.log('📍 Verifique se o arquivo IMG_20251119_172137.png está na mesma pasta que o index.html');
+                // Adiciona um placeholder vermelho para indicar erro
+                this.style.border = '2px solid red';
+                this.alt = 'ERRO: Imagem não encontrada - Verifique o arquivo IMG_20251119_172137.png';
+            };
+            
+            profileImg.onload = function() {
+                console.log('✅ Imagem carregada com sucesso!');
+            };
+        });
+    </script>
+</body>
+</html>
